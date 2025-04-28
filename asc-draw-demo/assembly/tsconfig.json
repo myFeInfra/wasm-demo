@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es2018", // 提升目标版本以支持更多现代特性
+    "module": "esnext", // 使用更现代的模块系统
+    "outDir": "./dist",
+    "rootDir": "./",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["dom", "dom.iterable", "esnext"], // 添加必要的库支持
+    "moduleResolution": "node" // 配置模块解析策略
+  }
+}

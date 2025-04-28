@@ -1,0 +1,22 @@
+{
+  "extends": "assemblyscript/std/assembly.json",
+  "targets": {
+    "release": {
+      "outFile": "./release/release.wasm",
+      "textFile": "./release/release.wat",
+      "sourceMap": true
+    },
+    "debug": {
+      "outFile": "./debug/debug.wasm",
+      "textFile": "./debug/debug.wat",
+      "sourceMap": true,
+      "debug": true
+    }
+  },
+  "options": {
+    "buildings": "esm",
+    "importMemory": true,
+    "exportRuntime": true,
+    "exportTable": true
+  }
+}

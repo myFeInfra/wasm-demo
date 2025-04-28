@@ -1,0 +1,22 @@
+{
+  "name": "asc-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "serve",
+    "asbuild:release": "asc assembly/index.ts --target release",
+    "asbuild:debug": "asc assembly/index.ts --target debug",
+    "asbuild": "pnpm run asbuild:release && pnpm run asbuild:debug"
+  },
+  "keywords": [],
+  "author": "juwenzhang",
+  "license": "MIT",
+  "packageManager": "pnpm@10.9.0",
+  "devDependencies": {
+    "assemblyscript": "0.27.36",
+    "serve": "14.2.4",
+    "typescript": "^5.8.3"
+  }
+}

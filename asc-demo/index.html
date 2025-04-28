@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- 为了不用进行编译，直接使用 esm 特性进行加载 -->
+  <script type="module">
+    import { sub, sum, memory } from "./release/release.js"
+    //======================================================
+    // 利用 performance 进行性能评估
+    performance.mark("wasm_start")
+    console.log(sum(1, 2))
+    performance.mark("wasm_end")
+    // 第一个参数为评估的名称，第二个参数为开始的时间，第三个参数为结束的时间
+    performance.measure("add_sum", "wasm_start", "wasm_end")
+    //获取结果
+    console.log("wasm_time", performance.getEntriesByName("add_sum"))
+
+    //=======================================================
+    function _sum(a, b){
+      let res = 0;
+      for (let i = 0; i < 10000000; i++) {
+        // 模拟一个性能评估任务实现
+        res += 1
+        console.log(0)
+      }
+      return a + b;
+    }
+    performance.mark("js_start")
+    console.log(_sum(1, 2))
+    performance.mark("js_end")
+    performance.measure("js_sum", "js_start", "js_end")
+    console.log("js_time", performance.getEntriesByName("js_sum"))
+
+    /**
+     * 测试后: 同样的数据处理的话是
+     * 所以说，对于一些简单的数据处理，使用 wasm 是比较快的
+     * 但是对于一些复杂的数据处理，使用 wasm 是比较慢的
+     * 这个也是一个极简化的前端优化方案: 通过 wasm 来实现对应的操作吧
+     * wasm 是一个跨平台执行的二进制文件，它可以在浏览器中执行，也可以在服务器中执行，也可以在移动设备中执行
+     * 所以说，wasm 是一个非常好的前端优化方案
+     * 但是需要主要的是，对于十分大的数据的时候，二者如果没有任何的io密集型的处理的话，时间差不多
+     * 对于大数据的处理还是需要引入大数据算法分析才可以吧
+     * 但是对于复杂计算的话，效果区别会更加明显吧
+     * 也不是 wasm 一定比 js 快，而是需要根据具体的场景来进行选择
+     */
+  </script>
+</body>
+</html>

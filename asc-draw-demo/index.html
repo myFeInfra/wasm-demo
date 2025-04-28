@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <canvas 
+    id="canvas"
+    style="width: 100%; height: 100%;background-color: #aff;" 
+  ></canvas>
+  <script type="module">
+    import * as exports from "./release/release.js"
+    console.log(exports)
+    const canvas = document.getElementById("canvas")
+    const ctx = canvas.getContext("2d")
+    const step = 0.02; // 步长，控制曲线的平滑度
+    const upscaleFactor = 2
+    let width, height, image;
+
+    function onresize() {
+      width = (canvas.offsetWidth * upscaleFactor) | 0; // 确保宽度为整数
+      height = (canvas.offsetHeight * upscaleFactor) | 0; // 确保高度为整数
+      canvas.width = width;
+      canvas.height = height;
+      image = ctx.createImageData(width, height); // 创建一个新的 ImageData 对象
+      exports.resize(width, height) // 调用 wasm 中的 resize 函数
+    }
+    onresize() // 初始化
+    new ResizeObserver(onresize).observe(canvas) // 监听 canvas 的变化
+    let tick = 0; // 时间
+    (function update() {
+      requestAnimationFrame(update) // 循环调用
+      exports.update(tick += step) // 调用 wasm 中的 update 函数
+      new Uint32Array(image.data.buffer).set(
+        new Uint32Array(
+          exports.memory.buffer,
+          exports.offset.value(), // 获取 wasm 中的 buffer 指针
+          width * height // 计算 buffer 的长度
+        )
+      )
+    })()
+  </script>
+</body>
+</html>
